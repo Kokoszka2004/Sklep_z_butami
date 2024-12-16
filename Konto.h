@@ -4,15 +4,12 @@
 #include <string>
 
 class Konto {
-private:
+public:
     std::string nazwaUzytkownika;
     std::string haslo;
     std::string email;
 
-public:
-    Konto(const std::string& nazwa, const std::string& haslo, const std::string& email);
-    std::string getNazwaUzytkownika() const;
-    bool weryfikujDane(const std::string& nazwa, const std::string& haslo) const;
+    Konto(const std::string& nazwa = "", const std::string& haslo = "", const std::string& email = "");
 };
 
 #endif

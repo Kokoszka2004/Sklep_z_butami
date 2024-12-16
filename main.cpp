@@ -1,188 +1,77 @@
 #include <iostream>
-#include "Produkt.h"
-#include "Koszyk.h"
-#include "Uzytkownik.h"
-#include "Transakcja.h"
-#include "Administrator.h"
-#include "Platnosc.h"
-#include "Zamowienie.h"
 #include "BazaDanych.h"
-#include "OstatecznePodsumowanie.h"
+#include "Uzytkownik.h"
 #include "Konto.h"
 
-using namespace std;
 
 int main() {
+    // Tworzymy baze danych
+    BazaDanych baza;
+    Uzytkownik uzytkownik;
 
+    //------------------------------------------------------REJSTRACJA/LOGOWANIE------------------------------------------
 
+    bool zalogowany = false;
 
-    /*TESTOWANIE PRODUKTU
-    // Tworzenie obiektu Produkt
-    Produkt laptop("P001", "Laptop", "Wysokiej jakosci laptop", 3000.0, 10, 1);
+    // Ekran logowania/rejestracji
+    while (!zalogowany) {
+        std::cout << "\n=== EKRAN LOGOWANIA ===\n";
+        std::cout << "1. Zaloguj sie\n";
+        std::cout << "2. Zarejestruj sie\n";
+        std::cout << "Wybierz opcje: ";
+        string wybor;
+        std::cin >> wybor;
 
-    // Wyswietlanie informacji o produkcie
-    std::cout << "Produkt: " << laptop.getNazwa() << "\n";
-    std::cout << "Opis: " << laptop.getOpis() << "\n";
-    std::cout << "Cena: " << laptop.getCena() << "\n";
-    std::cout << "Ilosc w magazynie: " << laptop.getIloscWMagazynie() << "\n";
+        if (wybor == "1") {
+            zalogowany = uzytkownik.zaloguj(baza);
+        }
+        else if (wybor == "2") {
+            uzytkownik.zarejestruj(baza);
+        }
+        else {
+            std::cout << "Niepoprawny wybor. Sprobuj ponownie.\n";
+        }
+    }
 
-    // Aktualizacja ceny
-    laptop.ustawNowaCene(2500.0);
-    std::cout << "Nowa cena: " << laptop.getCena() << "\n";
+    // Po zalogowaniu przechodzimy do menu g?ównego
+    std::cout << "Witaj, " << uzytkownik.getNazwaUzytkownika() << "!\n";
 
-    // Aktualizacja ilosci w magazynie
-    laptop.zmienIloscWMagazynie(20);
-    std::cout << "Nowa ilosc w magazynie: " << laptop.getIloscWMagazynie() << "\n";
-    */
+    //------------------------------------------------------------MENU----------------------------------------------------------------
+    
+    int wybor = 0;
+    while (wybor != 4) {
+        std::cout << "\n=== MENU ===\n1. Nowosci\n2. Promocje\n3. Wyszukaj produkt\n4. Wyjdz\nWybierz: ";
+        std::cin >> wybor;
 
+        switch (wybor) {
+        case 1:
+            for (const auto& produkt : baza.pobierzNowosci()) {
+                std::cout << produkt.getNazwa() << " | Cena: " << produkt.getCena() << " PLN\n";
+            }
+            break;
+        case 2:
+            for (const auto& produkt : baza.pobierzPromocje()) {
+                std::cout << produkt.getNazwa() << " | Cena: " << produkt.getCena() << " PLN\n";
+            }
+            break;
+        case 3: {
+            std::string nazwa;
+            std::cout << "Podaj nazwe produktu: ";
+            std::cin >> nazwa;
+            auto produkt = baza.wyszukajProdukt(nazwa);
+            std::cout << produkt.getNazwa() << " | Cena: " << produkt.getCena() << " PLN\n";
+            break;
+        }
+        case 4:
+            std::cout << "Koniec programu.\n";
+            break;
+        default:
+            std::cout << "Niepoprawny wybor!\n";
+        }
+    }
 
+    //-------------------------------------------------------------------------------------------------------------------------------------
+    
 
-    /*TESTOWANIE KOSZYKA
-    // Tworzymy koszyk
-    Koszyk koszyk;
-
-    // Dodajemy produkty
-    Produkt laptop("P001", "Laptop", "Wysokiej jako?ci laptop", 3000.0, 10, 1);
-    Produkt myszka("P002", "Myszka", "Bezprzewodowa myszka", 150.0, 20, 1);
-
-    koszyk.dodajDoKoszyka(laptop);
-    koszyk.dodajDoKoszyka(myszka);
-
-    // Wyswietlamy zawartosc koszyka
-    koszyk.pokazZawartosc();
-
-    // Usuwamy produkt z koszyka
-    koszyk.usunZKoszyka("P001");
-    koszyk.pokazZawartosc();
-
-    // Wyczysc koszyk
-    koszyk.wyczyscKoszyk();
-    koszyk.pokazZawartosc();
-    */
-
-
-
-    /*TESOTWANIE UZYTKOWNIKA
-    // Tworzymy uzytkownika
-    Uzytkownik uzytkownik("Jan", "Kowalski", "jan.kowalski@example.com", "haslo123", "janek", "Warszawa");
-
-    // Wyswietlamy nazwe uzytkownika
-    std::cout << "Witaj, " << uzytkownik.getNazwaUzytkownika() << "!" << std::endl;
-
-    // Dodajemy produkty do koszyka uzytkownika
-    Produkt laptop("P001", "Laptop", "Wysokiej jakosci laptop", 3000.0, 10, 1);
-    Produkt myszka("P002", "Myszka", "Bezprzewodowa myszka", 150.0, 20, 1);
-
-    uzytkownik.getKoszyk().dodajDoKoszyka(laptop);
-    uzytkownik.getKoszyk().dodajDoKoszyka(myszka);
-
-    // Wyswietlamy zawartosc koszyka uzytkownika
-    uzytkownik.getKoszyk().pokazZawartosc();
-
-    // Zaloguj uzytkownika
-    uzytkownik.zalogujSie();
-    */
-
-
-    /*TESTOWANIE TRANSAKCJI
-    // Tworzymy uzytkownika
-    Uzytkownik uzytkownik("Anna", "Nowak", "anna.nowak@example.com", "haslo321", "ania", "Krakow");
-
-    // Tworzymy produkty
-    Produkt laptop("P001", "Laptop", "Wysokiej jakosci laptop", 3000.0, 10, 1);
-    Produkt myszka("P002", "Myszka", "Bezprzewodowa myszka", 150.0, 20, 1);
-
-    // Dodajemy produkty do koszyka uzytkownika
-    uzytkownik.getKoszyk().dodajDoKoszyka(laptop);
-    uzytkownik.getKoszyk().dodajDoKoszyka(myszka);
-
-    // Tworzymy liste produktow z koszyka
-    std::vector<Produkt> produkty = { laptop, myszka };
-
-    // Obliczamy laczna cene
-    double calkowitaCena = laptop.getCena() + myszka.getCena();
-
-    // Tworzymy transakcje
-    Transakcja transakcja("T001", uzytkownik, produkty, calkowitaCena, "2024-12-09");
-
-    // Wyswietlamy szczegoly transakcji
-    transakcja.pokazSzczegoly();
-
-    // Potwierdzamy transakcje
-    transakcja.potwierdzTransakcje();
-
-    // Anulujemy transakcje (przyklad)
-    transakcja.anulujTransakcje();
-    */
-
-
-
-    /*TESOTWANIE ADMINISTRATORA
-    // Tworzymy administratora
-    Administrator admin("Pelne uprawnienia");
-
-    // Tworzymy produkty
-    Produkt laptop("P001", "Laptop", "Wysokiej jakosci laptop", 3000.0, 10, 1);
-    Produkt myszka("P002", "Myszka", "Bezprzewodowa myszka", 150.0, 20, 1);
-
-    // Dodajemy produkty
-    admin.dodajNowyProdukt(laptop);
-    admin.dodajNowyProdukt(myszka);
- 
-    // Zmieniamy cene produktu
-    admin.zmienCeneProduktu(laptop, 2800.0);
-
-    // Tworzymy transakcje do przegladania
-    std::vector<Produkt> produkty = { laptop, myszka };
-    Transakcja transakcja("T001", Uzytkownik("Jan", "Kowalski", "jan.kowalski@example.com", "haslo123", "janek", "Warszawa"), produkty, 2950.0, "2024-12-09");
-
-    std::vector<Transakcja> listaTransakcji = { transakcja };
-    admin.przegladajTransakcje(listaTransakcji);
-    */
-
-    // Tworzenie bazy danych
-    BazaDanych bazaDanych;
-
-    // Dodawanie produktow do bazy
-    Produkt laptop("P001", "Laptop", "Wysokiej jakosci laptop", 3000.0, 10, 1);
-    Produkt myszka("P002", "Myszka", "Bezprzewodowa myszka", 150.0, 20, 1);
-    bazaDanych.zapiszProdukt(laptop);
-    bazaDanych.zapiszProdukt(myszka);
-
-    // Tworzenie uzytkownika
-    Uzytkownik uzytkownik("Jan", "Kowalski", "jan.kowalski@example.com", "haslo123", "janek", "Warszawa");
-    bazaDanych.zapiszKonto(Konto("janek", "haslo123", "jan.kowalski@example.com"));
-
-    // Dodawanie produktow do koszyka uzytkownika
-    uzytkownik.getKoszyk().dodajDoKoszyka(laptop);
-    uzytkownik.getKoszyk().dodajDoKoszyka(myszka);
-
-    // Wyswietlanie zawartosci koszyka
-    std::cout << "Zawartosc koszyka uzytkownika:\n";
-    uzytkownik.getKoszyk().pokazZawartosc();
-
-    // Tworzenie transakcji
-    std::vector<Produkt> produktyKoszyk = { laptop, myszka };
-    double lacznaCena = laptop.getCena() + myszka.getCena();
-    Transakcja transakcja("T001", uzytkownik, produktyKoszyk, lacznaCena, "2024-12-10");
-    transakcja.pokazSzczegoly();
-
-    // Finalizacja transakcji
-    transakcja.potwierdzTransakcje();
-
-    // Administrator zarzadza produktami
-    Administrator admin("Pelne uprawnienia");
-    admin.zmienCeneProduktu(laptop, 2500.0);
-
-    // Tworzenie zamowienia na podstawie koszyka
-    Zamowienie zamowienie("Z001", produktyKoszyk, "Oczekuje na realizacje");
-    zamowienie.finalizujZamowienie();
-
-    // Wyswietlanie szczegolow zamowienia
-    std::cout << "\nSzczegoly zamowienia:\n";
-    zamowienie.finalizujZamowienie();
-
-
-
-	return 0;
+    return 0;
 }

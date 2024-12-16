@@ -2,31 +2,46 @@
 #include <iostream>
 
 // Konstruktor
-Uzytkownik::Uzytkownik(const std::string& imie, const std::string& nazwisko, const std::string& email,
-    const std::string& haslo, const std::string& nazwaUzytkownika, const std::string& adres)
-    : imie(imie), nazwisko(nazwisko), email(email), haslo(haslo), nazwaUzytkownika(nazwaUzytkownika), adres(adres) {
+Uzytkownik::Uzytkownik() : nazwaUzytkownika("") {}
+
+// Logowanie
+bool Uzytkownik::zaloguj(BazaDanych& baza) {
+    std::string nazwa, haslo;
+    std::cout << "Podaj nazwe uzytkownika: ";
+    std::cin >> nazwa;
+    std::cout << "Podaj haslo: ";
+    std::cin >> haslo;
+
+    if (baza.weryfikujKonto(nazwa, haslo)) {
+        nazwaUzytkownika = nazwa;
+        std::cout << "Zalogowano pomyslnie!\n";
+        return true;
+    }
+    else {
+        std::cout << "Niepoprawna nazwa uzytkownika lub haslo.\n";
+        return false;
+    }
 }
 
-// Gettery
+// Rejestracja
+void Uzytkownik::zarejestruj(BazaDanych& baza) {
+    std::string nazwa, haslo;
+    std::cout << "Podaj nazwe uzytkownika: ";
+    std::cin >> nazwa;
+
+    if (baza.czyNazwaZajeta(nazwa)) {
+        std::cout << "Nazwa uzytkownika jest juz zajeta.\n";
+        return;
+    }
+
+    std::cout << "Podaj haslo: ";
+    std::cin >> haslo;
+
+    baza.dodajKonto(nazwa, haslo);
+    std::cout << "Zarejestrowano pomyslnie! Mozesz sie teraz zalogowac.\n";
+}
+
+// Pobierz nazw? u?ytkownika
 std::string Uzytkownik::getNazwaUzytkownika() const {
     return nazwaUzytkownika;
-}
-
-std::string Uzytkownik::getEmail() const {
-    return email;
-}
-
-// Operacje na koszyku
-Koszyk& Uzytkownik::getKoszyk() {
-    return koszyk;
-}
-
-// Stworz konto (placeholder)
-void Uzytkownik::stworzKonto() {
-    std::cout << "Tworzenie konta dla: " << nazwaUzytkownika << std::endl;
-}
-
-// Zaloguj sie (placeholder)
-void Uzytkownik::zalogujSie() {
-    std::cout << "Uzytkownik " << nazwaUzytkownika << " zalogowany." << std::endl;
 }

@@ -2,34 +2,23 @@
 #define UZYTKOWNIK_H
 
 #include <string>
-#include "Koszyk.h"
+#include "BazaDanych.h"
 
 class Uzytkownik {
 private:
-    std::string imie;
-    std::string nazwisko;
-    std::string email;
-    std::string haslo;
     std::string nazwaUzytkownika;
-    std::string adres;
-    Koszyk koszyk;  // Kazdy uzytkownik ma swoj koszyk
 
 public:
-    // Konstruktor
-    Uzytkownik(const std::string& imie, const std::string& nazwisko, const std::string& email,
-        const std::string& haslo, const std::string& nazwaUzytkownika, const std::string& adres);
+    Uzytkownik();
 
-    // Gettery
+    // Logowanie
+    bool zaloguj(BazaDanych& baza);
+
+    // Rejestracja
+    void zarejestruj(BazaDanych& baza);
+
+    // Pobierz nazw? u?ytkownika
     std::string getNazwaUzytkownika() const;
-    std::string getEmail() const;
-
-    // Operacje na koszyku
-    Koszyk& getKoszyk();  // Zwraca referencje do koszyka uzytkownika
-
-    // Metody uzytkownika
-    void stworzKonto();
-    void zalogujSie();
 };
 
 #endif
-
