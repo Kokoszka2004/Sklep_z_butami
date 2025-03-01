@@ -10,9 +10,16 @@ BazaDanych::BazaDanych() {
 
 // Inicjalizuje przyk?adowe produkty
 void BazaDanych::inicjalizujProdukty() {
-    dodajProdukt(Produkt("P001", "Laptop", "Nowy model laptopa", 3500.0, 10, 1));
-    dodajProdukt(Produkt("P002", "Smartfon", "Najnowszy smartfon", 2500.0, 15, 1));
-    dodajProdukt(Produkt("P003", "Sluchawki", "Wysokiej jakosci sluchawki", 150.0, 20, 1));
+    dodajProdukt(Produkt("P001", "Nike Air Force 1", "Biale, klasyczne buty. Sportowe oraz na codzien.", 550.0, 150, 1));
+    dodajProdukt(Produkt("P002", "Yeezy 350", "Buty od Kanyego Westa. Lekkie, wygodne z nowowczesnym designem.", 400.0, 165, 1));
+    dodajProdukt(Produkt("P003", "New Balance 550", "Wygodne buty skorzane z klasycznym designem.", 450.0, 230, 1));
+    dodajProdukt(Produkt("P004", "Nike Dunk", "Ikoniczne buty sportowe oraz na codzien.", 750.0, 120, 1));
+    dodajProdukt(Produkt("P005", "Converse Chuck Taylor", "Trampki do chodzenia po miescie z wygodna podeszwa.", 190.0, 230, 1));
+    dodajProdukt(Produkt("P006", "Adidas Predator", "Korki do gry w pilke nozna.", 250.0, 170, 1));
+    dodajProdukt(Produkt("P007", "Sandaly Mojrzeszki RL9", "", 1.0, 230, 1));
+    dodajProdukt(Produkt("P008", "Nike CR7", "", 7777.0, 230, 1));
+    dodajProdukt(Produkt("P009", "Yeezy Slide", "", 390.0, 230, 1));
+    dodajProdukt(Produkt("P010", "Buty klauna", "", 4200.0, 230, 1));
     std::cout << "Produkty zostaly zainicjalizowane.\n";
 }
 
@@ -24,7 +31,7 @@ void BazaDanych::dodajProdukt(const Produkt& produkt) {
 // Pobiera nowo?ci
 std::vector<Produkt> BazaDanych::pobierzNowosci() const {
     std::vector<Produkt> nowosci;
-    for (size_t i = 0; i < produkty.size() && i < 2; ++i) {
+    for (size_t i = 0; i < produkty.size() && i < 5; ++i) {
         nowosci.push_back(produkty[i]);
     }
     return nowosci;
@@ -33,10 +40,8 @@ std::vector<Produkt> BazaDanych::pobierzNowosci() const {
 // Pobiera promocje
 std::vector<Produkt> BazaDanych::pobierzPromocje() const {
     std::vector<Produkt> promocje;
-    for (const auto& produkt : produkty) {
-        if (produkt.getCena() < 2000) {
-            promocje.push_back(produkt);
-        }
+    for (size_t i = 5; i < produkty.size() && i < 10; ++i) {
+        promocje.push_back(produkty[i]);
     }
     return promocje;
 }

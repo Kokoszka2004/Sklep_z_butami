@@ -8,6 +8,8 @@ class BazaDanych {
 private:
     std::vector<Produkt> produkty; // Lista wszystkich produktów w bazie
 
+    void wyswietlProdukt(const Produkt& produkt) const;
+
     std::vector<std::pair<std::string, std::string>> konta; // Nazwa u?ytkownika i has?o
     const std::string plikKonta = "konta.txt";
 

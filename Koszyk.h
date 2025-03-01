@@ -6,21 +6,15 @@
 
 class Koszyk {
 private:
-    std::vector<Produkt> listaProduktow;  // Lista produktow w koszyku
+    std::vector<Produkt> listaProduktow;  // Lista produktów w koszyku
 
 public:
-    // Dodaj produkt do koszyka
-    void dodajDoKoszyka(const Produkt& produkt);
-
-    // Usun produkt z koszyka
-    void usunZKoszyka(const std::string& idProduktu);
-
-    // Wyczysc koszyk
-    void wyczyscKoszyk();
-
-    // Wyswietl produkty w koszyku
-    void pokazZawartosc() const;
+    void dodajDoKoszyka(Produkt& produkt, int ilosc);
+    void usunZKoszyka(int index);  // Usuwa produkt z koszyka na podstawie indeksu
+    void wyczyscKoszyk();         // Usuwa wszystkie produkty z koszyka
+    void pokazZawartosc() const;  // Wyœwietla zawartoœæ koszyka
+    double obliczCalkowitaCene() const;  // Oblicza ca³kowit¹ cenê koszyka
+    int ileProduktow() const;     // Zwraca liczbê produktów w koszyku
 };
 
 #endif
-
